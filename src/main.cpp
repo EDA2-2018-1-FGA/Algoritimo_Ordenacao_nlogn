@@ -22,9 +22,16 @@ void print_array(int array[], int size){
 }
 
 int main(){
-	/*int* array = generate_array(LENGTH);
+	/*
+	int* array = generate_array(LENGTH);
 	print_array(array, LENGTH);
 	Sorting::quick_sort(array, START, END);
+	print_array(array, LENGTH);
+	*/
+	/*
+	int* array = generate_array(LENGTH);
+	print_array(array, LENGTH);
+	Sorting::merge_sort(array, START, END);
 	print_array(array, LENGTH);
 	*/
 	return 0;

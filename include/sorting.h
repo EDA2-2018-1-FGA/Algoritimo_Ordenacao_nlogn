@@ -6,7 +6,8 @@ class Sorting{
   public:
     static int partition(int array[], int start, int end);
     static void quick_sort(int array[], int start, int end);
-    static void merge_sort(int array[], int size);
+    static void merge(int array[], int start, int half, int end);
+    static void merge_sort(int array[], int start, int end);
 };
 
 #endif
