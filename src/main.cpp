@@ -1,38 +1,57 @@
 #include <bits/stdc++.h>
-#include <iostream>
 #include "sorting.h"
+#include "generate.h"
+
+using namespace std;
 
 #define LENGTH 100
-#define START 0
-#define END LENGTH-1
+#define MAX 10000
 
-int* generate_array(int size){
-	int* array = new int[size];
-	for(int i=0; i<size; i++){
-		array[i] = rand()% (2*size);
-	}
-	return array;
-}
+void results(vector<int> quick, vector<int> merge){
 
-void print_array(int array[], int size){
-	std::cout << "i | array[i]" << std::endl;
-	for(int i=0; i<size; i++){
-		std::cout << i << " | " << array[i] << std::endl;
-	}
+  auto start = std::chrono::high_resolution_clock::now();
+  Sorting::quick_sort(&quick[0], 0, quick.size() - 1);
+  auto end = std::chrono::high_resolution_clock::now();
+  cout << chrono::duration_cast<std::chrono::nanoseconds>(end - start).count(); 
+  cout << "|";
+
+  start = std::chrono::high_resolution_clock::now();
+  Sorting::merge_sort(&merge[0], 0, quick.size() - 1);
+  end = std::chrono::high_resolution_clock::now();
+  cout << chrono::duration_cast<std::chrono::nanoseconds>(end - start).count(); 
+  cout << "|";
 }
 
 int main(){
-	/*
-	int* array = generate_array(LENGTH);
-	print_array(array, LENGTH);
-	Sorting::quick_sort(array, START, END);
-	print_array(array, LENGTH);
-	*/
-	/*
-	int* array = generate_array(LENGTH);
-	print_array(array, LENGTH);
-	Sorting::merge_sort(array, START, END);
-	print_array(array, LENGTH);
-	*/
-	return 0;
+
+  cout << "|N |quicksort many repetitions vector(ns)|merge many repetitions vector(ns)|";
+  cout << "quicksort no repetitions vector(ns)|merge no repetitions vector(ns)|";
+  cout << "quicksort ordened vector(ns)|merge ordened vector(ns)|";
+  cout << "quicksort reverse order vector(ns)|merge reverse order vector(ns)|" << endl;
+  cout << "|--|----------|-------------|";
+  cout << "----------|-------------|";
+  cout << "----------|-------------|";
+  cout << "----------|-------------|" << endl;
+
+  for(int i = 1; i * LENGTH < MAX; i += 10){
+    vector<int> merge, quick;
+    int total = LENGTH * i;
+
+    cout << "|" << total << "|"; 
+    merge = quick = Generate::random_with_many_rep(total);
+    results(quick, merge);
+
+    merge = quick = Generate::random_with_no_rep(total);
+    results(quick, merge);
+
+    merge = quick = Generate::ordened(total);
+    results(quick, merge);
+
+    merge = quick = Generate::inverted_ordened(total);
+    results(quick, merge);
+
+    cout << endl;
+  }
+
+  return 0;
 }
